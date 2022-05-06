@@ -1,49 +1,38 @@
 package Components;
 
-public class RAM {
-    private static int counter=0;
-    private int id;
-    private String name;
-    private int count;
-    private int price;
+import Product.Product;
 
-    public RAM(String name, int count, int price) {
+public class RAM extends Product {
+
+    public RAM(String name, int quantity, float price) {
         this.id = counter++;
         this.name = name;
-        this.count = count;
+        this.quantity = quantity;
         this.price = price;
     }
 
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getCount() {
-        return count;
+    public int getQuantity() {
+        return quantity;
     }
-
-    public void setCount(int count) {
-        this.count = count;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
-
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
-
 }
