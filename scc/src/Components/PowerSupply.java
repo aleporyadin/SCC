@@ -1,14 +1,19 @@
 package Components;
 
-import Product.Product;
+import Utils.Component;
+import Utils.Product;
 
-public class PowerSupply extends Product {
+public class PowerSupply  extends Component implements Product {
 
     public PowerSupply(String name, int quantity, float price) {
         this.id = counter++;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public void changeDecrement() {
+        counter--;
     }
 
     public int getId() {

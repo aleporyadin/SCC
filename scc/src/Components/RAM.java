@@ -1,14 +1,19 @@
 package Components;
 
-import Product.Product;
+import Utils.Component;
+import Utils.Product;
 
-public class RAM extends Product {
+public class RAM  extends Component implements Product {
 
     public RAM(String name, int quantity, float price) {
         this.id = counter++;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public void changeDecrement() {
+        counter--;
     }
 
     public int getId() {

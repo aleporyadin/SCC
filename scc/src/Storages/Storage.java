@@ -5,6 +5,7 @@ import Utils.SimpleTableFormatter;
 import Utils.TableFormatter;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Storage {
 
@@ -123,15 +124,35 @@ public class Storage {
     }
 
     public void changeCPU(int id) throws Exception {
-        try {
-            CPU newCPU = null;
-            System.out.println("Enter new nam");
-            answer = in.nextLine().toLowerCase().replace(" ", "");
-            st.changeCPU(Integer.parseInt(answer));
-            CPU cpu = listCPU.get(id);
+        Scanner in = new Scanner(System.in);
+        CPU newCPU = null;
+        int newID = id-1;
+        while (true) {
+            try {
+                System.out.println("Enter new name: ");
+                String name = in.nextLine();
+                System.out.println("Enter new quantity: ");
+                int quantity = in.nextInt();
+                System.out.println("Enter new price: ");
+                float price = in.nextFloat();
+                newCPU = new CPU(newID, name, quantity, price);
 
-        } catch (IndexOutOfBoundsException e) {
-            throw new Exception("Unknown id");
+                listCPU.remove(id);
+                listCPU.add(newCPU);
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                throw new Exception("Unknown id");
+            }
+        }
+    }
+
+    public void removeComponent(int id, String componentToChange) {
+        switch (componentToChange) {
+            case "cpu" -> listCPU.remove(id);
+            case "gpu" -> listGPU.remove(id);
+            case "ram" -> listRAM.remove(id);
+            case "motherboard" -> listMotherboard.remove(id);
+            case "powersupply" -> listPowerSupply.remove(id);
         }
     }
 
@@ -167,6 +188,13 @@ public class Storage {
         listRAM.add(newRAM);
     }
 
+    public void clearStorage() {
+        listCPU.clear();
+        listRAM.clear();
+        listGPU.clear();
+        listMotherboard.clear();
+        listPowerSupply.clear();
+    }
     public boolean isEmpties() {
         return listCPU.isEmpty() && listGPU.isEmpty() && listRAM.isEmpty() && listMotherboard.isEmpty() && listPowerSupply.isEmpty();
     }
