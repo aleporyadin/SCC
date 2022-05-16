@@ -1,11 +1,19 @@
 package Components;
 
-import Product.Product;
+import Utils.Component;
+import Utils.Product;
 
-public class GPU extends Product {
+public class GPU extends Component implements Product {
 
-    public GPU( String name, int quantity, float price) {
-        this.id = counter++;
+    public GPU(int id, String name, int quantity, float price) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public GPU(String name, int quantity, float price) {
+        this.id = this.counter++;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -14,24 +22,31 @@ public class GPU extends Product {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public int getQuantity() {
         return quantity;
     }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
     public float getPrice() {
         return price;
     }
+
     public void setPrice(float price) {
         this.price = price;
     }
