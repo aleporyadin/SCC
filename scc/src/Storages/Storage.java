@@ -1,6 +1,7 @@
 package Storages;
 
 import Components.*;
+import Utils.ComponentEnum;
 import Utils.SimpleTableFormatter;
 import Utils.TableFormatter;
 
@@ -123,10 +124,9 @@ public class Storage {
         clearTable();
     }
 
-    public void changeCPU(int id) throws Exception {
+    public void changeComponent(int id, ComponentEnum component) throws Exception {
+
         Scanner in = new Scanner(System.in);
-        CPU newCPU = null;
-        int newID = id-1;
         while (true) {
             try {
                 System.out.println("Enter new name: ");
@@ -135,32 +135,72 @@ public class Storage {
                 int quantity = in.nextInt();
                 System.out.println("Enter new price: ");
                 float price = in.nextFloat();
-                newCPU = new CPU(newID, name, quantity, price);
+                switch (component) {
+                    case CPU -> {
+                        CPU newCPU = new CPU(id, name, quantity, price);
+                        listCPU.remove(id);
+                        listCPU.add(newCPU);
+                    }
+                    case GPU -> {
+                        GPU newGPU = new GPU(id, name, quantity, price);
+                        listGPU.remove(id);
+                        listGPU.add(newGPU);
+                    }
+                    case RAM -> {
+                        RAM newRAM = new RAM(id, name, quantity, price);
+                        listRAM.remove(id);
+                        listRAM.add(newRAM);
+                    }
+                    case MOTHERBOARD -> {
+                        Motherboard newMotherboard = new Motherboard(id, name, quantity, price);
+                        listMotherboard.remove(id);
+                        listMotherboard.add(newMotherboard);
+                    }
+                    case POWER_SUPPLY -> {
+                        PowerSupply powerSupply = new PowerSupply(id, name, quantity, price);
+                        listPowerSupply.remove(id);
+                        listPowerSupply.add(powerSupply);
+                    }
 
-                listCPU.remove(id);
-                listCPU.add(newCPU);
+                }
                 break;
-            } catch (IndexOutOfBoundsException e) {
-                throw new Exception("Unknown id");
+            } catch (Exception e) {
+                throw new Exception("Unknown enter valid data");
             }
         }
     }
 
-    public void removeComponent(int id, String componentToChange) {
-        switch (componentToChange) {
-            case "cpu" -> listCPU.remove(id);
-            case "gpu" -> listGPU.remove(id);
-            case "ram" -> listRAM.remove(id);
-            case "motherboard" -> listMotherboard.remove(id);
-            case "powersupply" -> listPowerSupply.remove(id);
-        }
-    }
+    public void removeComponent(int id, ComponentEnum component) {
+        switch (component) {
+            case CPU -> {
+                CPU.decrementCounter();
+                listCPU.remove(id);
+                System.out.println("CPU removed");
+            }
+            case GPU -> {
+                GPU.decrementCounter();
 
-    public void removeCPU(int id) throws Exception {
-        try {
-            listCPU.remove(id);
-        } catch (IndexOutOfBoundsException e) {
-            throw new Exception("Unknown id");
+                listGPU.remove(id);
+                System.out.println("GPU removed");
+            }
+            case RAM -> {
+                RAM.decrementCounter();
+
+                listRAM.remove(id);
+                System.out.println("RAM removed");
+            }
+            case MOTHERBOARD -> {
+                Motherboard.decrementCounter();
+
+                listMotherboard.remove(id);
+                System.out.println("Motherboard removed");
+            }
+            case POWER_SUPPLY -> {
+                PowerSupply.decrementCounter();
+
+                listPowerSupply.remove(id);
+                System.out.println("Power Supply removed");
+            }
         }
     }
 
@@ -195,6 +235,7 @@ public class Storage {
         listMotherboard.clear();
         listPowerSupply.clear();
     }
+
     public boolean isEmpties() {
         return listCPU.isEmpty() && listGPU.isEmpty() && listRAM.isEmpty() && listMotherboard.isEmpty() && listPowerSupply.isEmpty();
     }

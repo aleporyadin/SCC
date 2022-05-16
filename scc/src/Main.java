@@ -1,5 +1,7 @@
 import Components.*;
 import Storages.Storage;
+import Utils.Component;
+import Utils.ComponentEnum;
 
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner in = new Scanner(System.in);
         Storage st = new Storage();
-        String answer;
+        String answer = null;
         System.out.println("Welcome to PC store\nThis storage is for computer components");
 
         while (true) {
@@ -58,19 +60,19 @@ public class Main {
                     answer = in.nextLine().toLowerCase().replace(" ", "");
                     switch (answer) {
                         case "1":
-                            st.addToListCPU(addAndValidateCPU());
+                            st.addToListCPU((CPU) addAndValidateComponent(ComponentEnum.CPU));
                             break;
                         case "2":
-                            st.addToListGPU(addAndValidateGPU());
+                            st.addToListGPU((GPU) addAndValidateComponent(ComponentEnum.GPU));
                             break;
                         case "3":
-                            st.addToListRAM(addAndValidateRAM());
+                            st.addToListRAM((RAM) addAndValidateComponent(ComponentEnum.RAM));
                             break;
                         case "4":
-                            st.addToListMotherboard(addAndValidateMotherboard());
+                            st.addToListMotherboard((Motherboard) addAndValidateComponent(ComponentEnum.MOTHERBOARD));
                             break;
                         case "5":
-                            st.addToListPowerSupply(addAndValidatePowerSupply());
+                            st.addToListPowerSupply((PowerSupply) addAndValidateComponent(ComponentEnum.POWER_SUPPLY));
                             break;
                         case "6":
                             continue;
@@ -94,20 +96,89 @@ public class Main {
                                     try {
                                         System.out.println("Input id to change: ");
                                         answer = in.nextLine().toLowerCase().replace(" ", "");
-                                        st.changeCPU(Integer.parseInt(answer));
+                                        st.changeComponent(Integer.parseInt(answer), ComponentEnum.CPU);
                                         break;
                                     } catch (Exception e) {
-                                        throwMessage("Enter id");
+                                        throwMessage("Error! Enter valid id!");
                                     }
                                 }
                             } else {
                                 System.out.println("\nThere is nothing to change. List items empty\n");
                             }
+                            break;
                         }
-                        case "2":
-                        case "3":
-                        case "4":
-                        case "5":
+                        case "2": {
+                            if (!st.getListGPU().isEmpty()) {
+                                st.showGPU();
+                                while (true) {
+                                    try {
+                                        System.out.println("Input id to change: ");
+                                        answer = in.nextLine().toLowerCase().replace(" ", "");
+                                        st.changeComponent(Integer.parseInt(answer), ComponentEnum.GPU);
+                                        break;
+                                    } catch (Exception e) {
+                                        throwMessage("Error! Enter valid id!");
+                                    }
+                                }
+                            } else {
+                                System.out.println("\nThere is nothing to change. List items empty\n");
+                            }
+                            break;
+                        }
+                        case "3": {
+                            if (!st.getListRAM().isEmpty()) {
+                                st.showRAM();
+                                while (true) {
+                                    try {
+                                        System.out.println("Input id to change: ");
+                                        answer = in.nextLine().toLowerCase().replace(" ", "");
+                                        st.changeComponent(Integer.parseInt(answer), ComponentEnum.RAM);
+                                        break;
+                                    } catch (Exception e) {
+                                        throwMessage("Error! Enter valid id!");
+                                    }
+                                }
+                            } else {
+                                System.out.println("\nThere is nothing to change. List items empty\n");
+                            }
+                            break;
+                        }
+                        case "4": {
+                            if (!st.getListMotherboard().isEmpty()) {
+                                st.showMotherboard();
+                                while (true) {
+                                    try {
+                                        System.out.println("Input id to change: ");
+                                        answer = in.nextLine().toLowerCase().replace(" ", "");
+                                        st.changeComponent(Integer.parseInt(answer), ComponentEnum.MOTHERBOARD);
+                                        break;
+                                    } catch (Exception e) {
+                                        throwMessage("Error! Enter valid id!");
+                                    }
+                                }
+                            } else {
+                                System.out.println("\nThere is nothing to change. List items empty\n");
+                            }
+                            break;
+                        }
+                        case "5": {
+                            if (!st.getListPowerSupply().isEmpty()) {
+                                st.showPowerSupply();
+                                while (true) {
+                                    try {
+                                        System.out.println("Input id to change: ");
+                                        answer = in.nextLine().toLowerCase().replace(" ", "");
+                                        st.changeComponent(Integer.parseInt(answer), ComponentEnum.POWER_SUPPLY);
+                                        break;
+                                    } catch (Exception e) {
+                                        throwMessage("Error! Enter valid id!");
+                                    }
+                                }
+                            } else {
+                                System.out.println("\nThere is nothing to change. List items empty\n");
+                            }
+                            break;
+                        }
                         case "6":
                             continue;
                         case "7":
@@ -121,27 +192,78 @@ public class Main {
                     menuComponents("remove");
                     System.out.println("Input answer: ");
                     answer = in.nextLine().toLowerCase();
-
+                    int id = 0;
                     switch (answer) {
                         case "1": {
                             st.showCPU();
-                            int id;
-                            System.out.println("Input id to remove: ");
                             while (true) {
                                 try {
+                                    System.out.println("Input id to remove: ");
                                     id = in.nextInt();
+                                    st.removeComponent(id, ComponentEnum.CPU);
                                     break;
                                 } catch (Exception e) {
-                                    throw new Exception("Unknown id");
+                                    throw new Exception("Error! Unknown id");
                                 }
                             }
-
-                            st.removeComponent(id, "cpu");
+                            break;
                         }
-                        case "2":
-                        case "3":
-                        case "4":
-                        case "5":
+                        case "2": {
+                            st.showCPU();
+                            while (true) {
+                                try {
+                                    System.out.println("Input id to remove: ");
+                                    id = in.nextInt();
+                                    st.removeComponent(id, ComponentEnum.GPU);
+                                    break;
+                                } catch (Exception e) {
+                                    throw new Exception("Error! Unknown id");
+                                }
+                            }
+                            break;
+                        }
+                        case "3": {
+                            st.showCPU();
+                            while (true) {
+                                try {
+                                    System.out.println("Input id to remove: ");
+                                    id = in.nextInt();
+                                    st.removeComponent(id, ComponentEnum.RAM);
+                                    break;
+                                } catch (Exception e) {
+                                    throw new Exception("Error! Unknown id");
+                                }
+                            }
+                            break;
+                        }
+                        case "4": {
+                            st.showCPU();
+                            while (true) {
+                                try {
+                                    System.out.println("Input id to remove: ");
+                                    id = in.nextInt();
+                                    st.removeComponent(id, ComponentEnum.MOTHERBOARD);
+                                    break;
+                                } catch (Exception e) {
+                                    throw new Exception("Error! Unknown id");
+                                }
+                            }
+                            break;
+                        }
+                        case "5": {
+                            st.showCPU();
+                            while (true) {
+                                try {
+                                    System.out.println("Input id to remove: ");
+                                    id = in.nextInt();
+                                    st.removeComponent(id, ComponentEnum.POWER_SUPPLY);
+                                    break;
+                                } catch (Exception e) {
+                                    throw new Exception("Error! Unknown id");
+                                }
+                            }
+                            break;
+                        }
                         case "6":
                             continue;
                         case "7":
@@ -178,36 +300,9 @@ public class Main {
                 }
             }
         }
-}
-
-    static CPU addAndValidateCPU() throws Exception {
-        CPU newCPU = null;
-        int quantity = 0;
-        int price = 0;
-
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Enter name/model: ");
-        String name = in.nextLine().toLowerCase();
-        while (true) {
-            try {
-                System.out.println("Enter quantity CPU: ");
-                quantity = Integer.parseInt(in.nextLine());
-                System.out.println("Enter price CPU: ");
-                price = Integer.parseInt(in.nextLine());
-                if (price < 0 || quantity < 0) {
-                    throw new Exception("Price or Quantity cannot be less than zero");
-                }
-                newCPU = new CPU(name, quantity, price);
-                return newCPU;
-            } catch (Exception e) {
-                throwMessage(e.getMessage() + " Enter only number please");
-            }
-        }
     }
 
-    static GPU addAndValidateGPU() throws InterruptedException {
-        GPU newGPU = null;
+    static Component addAndValidateComponent(ComponentEnum component) throws Exception {
         int quantity = 0;
         int price = 0;
 
@@ -224,86 +319,24 @@ public class Main {
                 if (price < 0 || quantity < 0) {
                     throw new Exception("Price or Quantity cannot be less than zero");
                 }
-                newGPU = new GPU(name, quantity, price);
-                return newGPU;
-            } catch (Exception e) {
-                throwMessage(e.getMessage() + " Enter only number please");
-            }
-        }
-    }
-
-    static RAM addAndValidateRAM() throws InterruptedException {
-        RAM newRAM = null;
-        int quantity = 0;
-        int price = 0;
-
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Enter name/model: ");
-        String name = in.nextLine().toLowerCase();
-        while (true) {
-            try {
-                System.out.println("Enter quantity CPU: ");
-                quantity = Integer.parseInt(in.nextLine());
-                System.out.println("Enter price CPU: ");
-                price = Integer.parseInt(in.nextLine());
-                if (price < 0 || quantity < 0) {
-                    throw new Exception("Price or Quantity cannot be less than zero");
+                switch (component) {
+                    case CPU -> {
+                        return new CPU(name, quantity, price);
+                    }
+                    case GPU -> {
+                        return new GPU(name, quantity, price);
+                    }
+                    case RAM -> {
+                        return new RAM(name, quantity, price);
+                    }
+                    case MOTHERBOARD -> {
+                        return new Motherboard(name, quantity, price);
+                    }
+                    case POWER_SUPPLY -> {
+                        return new PowerSupply(name, quantity, price);
+                    }
                 }
-                newRAM = new RAM(name, quantity, price);
-                return newRAM;
-            } catch (Exception e) {
-                throwMessage(e.getMessage() + " Enter only number please");
-            }
-        }
-    }
 
-    static Motherboard addAndValidateMotherboard() throws InterruptedException {
-        Motherboard newMotherboard = null;
-        int quantity = 0;
-        int price = 0;
-
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Enter name/model: ");
-        String name = in.nextLine().toLowerCase();
-        while (true) {
-            try {
-                System.out.println("Enter quantity CPU: ");
-                quantity = Integer.parseInt(in.nextLine());
-                System.out.println("Enter price CPU: ");
-                price = Integer.parseInt(in.nextLine());
-                if (price < 0 || quantity < 0) {
-                    throw new Exception("Price or Quantity cannot be less than zero");
-                }
-                newMotherboard = new Motherboard(name, quantity, price);
-                return newMotherboard;
-            } catch (Exception e) {
-                throwMessage(e.getMessage() + " Enter only number please");
-            }
-        }
-    }
-
-    static PowerSupply addAndValidatePowerSupply() throws InterruptedException {
-        PowerSupply newPowerSupply = null;
-        int quantity = 0;
-        int price = 0;
-
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Enter name/model: ");
-        String name = in.nextLine().toLowerCase();
-        while (true) {
-            try {
-                System.out.println("Enter quantity CPU: ");
-                quantity = Integer.parseInt(in.nextLine());
-                System.out.println("Enter price CPU: ");
-                price = Integer.parseInt(in.nextLine());
-                if (price < 0 || quantity < 0) {
-                    throw new Exception("Price or Quantity cannot be less than zero");
-                }
-                newPowerSupply = new PowerSupply(name, quantity, price);
-                return newPowerSupply;
             } catch (Exception e) {
                 throwMessage(e.getMessage() + " Enter only number please");
             }
